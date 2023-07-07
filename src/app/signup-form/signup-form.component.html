@@ -1,0 +1,57 @@
+<!-- 03 - Creating Controls Programatically,  -->
+<form [formGroup]="form" (ngSubmit)="login()">
+  <!-- 11 - Nested FormGroups -->
+  <div formGroupName="account">
+    <!-- 10 - Validating Upon Submitting the Form -->
+    <div *ngIf="form.errors" class="alert alert-danger">
+      The username or password is invalid.
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        formControlName="username"
+        id="username"
+        type="text"
+        class="form-control"
+      />
+
+      <!-- 09 - Displaying a Loader Image -->
+      <div *ngIf="username?.pending">Checking for uniqueness...</div>
+
+      <div
+        *ngIf="username?.touched && username?.invalid"
+        class="alert alert-danger"
+      >
+        <!-- 04 - Adding Validation -->
+        <div *ngIf="username?.errors?.['required']">Username is Required.</div>
+
+        <!-- 05 - Specific Validation Errors -->
+        <div *ngIf="username?.errors?.['minlength']">
+          Username should be minimum.
+          {{ username?.errors?.['minlength'].requiredLength }} characters.
+        </div>
+
+        <!-- 06 - Implementing Custom Validation -->
+        <div *ngIf="username?.errors?.['cannotContainSpace']">
+          Username cannot contain space.
+        </div>
+
+        <!-- 07,08 - Async Operations,Async Validators -->
+        <div *ngIf="username?.errors?.['shouldBeUnique']">
+          Username is already taken.
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        formControlName="password"
+        id="password"
+        type="text"
+        class="form-control"
+      />
+    </div>
+  </div>
+  <button class="btn btn-primary m-2" type="submit">Sign Up</button>
+</form>
